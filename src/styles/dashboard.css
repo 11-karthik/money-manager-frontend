@@ -1,0 +1,89 @@
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+
+.view-select {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid #1f2937;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  min-width: 110px;
+  transition: all 0.2s ease;
+}
+
+.view-select:hover {
+  border-color: var(--green);
+}
+
+.view-select:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25);
+}
+
+.view-select option {
+  background: var(--bg-card);
+  color: var(--text-main);
+}
+.range-select {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid #1f2937;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+
+.dashboard h2 {
+    font-size: 26px;
+  }
+  
+  .date {
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+  
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .stat {
+    background: var(--bg-card);
+    padding: 18px;
+    border-radius: var(--radius);
+  }
+  
+  .stat.green h3 { color: var(--green); }
+  .stat.red h3 { color: var(--red); }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .card {
+    background: var(--bg-card);
+    padding: 16px;
+    border-radius: var(--radius);
+  }
+  
+  .card.wide {
+    grid-column: span 2;
+  }
+  
+  .money {
+    font-size: 26px;
+    color: var(--green);
+  }

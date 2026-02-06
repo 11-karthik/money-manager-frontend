@@ -1,0 +1,117 @@
+.history {
+    padding: 24px;
+    color: #e5e5e5;
+  }
+  
+  /* ---------- TITLE ---------- */
+  .history h2 {
+    margin-bottom: 16px;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  
+  /* ---------- FILTER BAR ---------- */
+  .filters {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  
+  .filters input,
+  .filters select {
+    background: #111;
+    border: 1px solid #333;
+    color: #e5e5e5;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .filters input:focus,
+  .filters select:focus {
+    outline: none;
+    border-color: #2563eb;
+  }
+  
+  /* ---------- TABLE ---------- */
+  .table-wrapper {
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #111;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  thead {
+    background: #1f2937;
+  }
+  
+  th,
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #333;
+    text-align: left;
+    font-size: 14px;
+  }
+  
+  th {
+    font-weight: 600;
+    color: #cbd5f5;
+  }
+  
+  tbody tr:hover {
+    background: #181818;
+  }
+  
+  /* ---------- AMOUNT & TYPE ---------- */
+  .amount {
+    font-weight: bold;
+  }
+  
+  .income {
+    color: #22c55e;
+    font-weight: 600;
+  }
+  
+  .expense {
+    color: #ef4444;
+    font-weight: 600;
+  }
+  
+  /* ---------- ACTION ---------- */
+  .edit-btn {
+    background: #2563eb;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    font-size: 13px;
+  }
+  
+  .edit-btn:hover {
+    background: #1d4ed8;
+  }
+  
+  .locked {
+    color: #6b7280;
+    font-size: 0.85rem;
+  }
+  
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 768px) {
+    th,
+    td {
+      font-size: 13px;
+      padding: 8px;
+    }
+  
+    .filters {
+      gap: 8px;
+    }
+  }

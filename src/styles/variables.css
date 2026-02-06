@@ -1,0 +1,14 @@
+:root {
+    --bg-main: #0b1220;
+    --bg-sidebar: #0f172a;
+    --bg-card: #020617;
+  
+    --text-main: #e5e7eb;
+    --text-muted: #9ca3af;
+  
+    --green: #22c55e;
+    --red: #ef4444;
+    --cyan: #5eead4;
+  
+    --radius: 14px;
+  }

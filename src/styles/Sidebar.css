@@ -1,0 +1,59 @@
+.sidebar {
+  width: 240px;
+  background: var(--bg-sidebar);
+  padding: 20px;
+}
+
+.brand {
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 12px;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+.sidebar nav a.active,
+.sidebar nav a:hover {
+  background: var(--bg-card);
+  color: var(--green);
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.logout-btn:hover {
+  background: #ef4444;
+  color: #000;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.logout-wrapper {
+  margin-top: auto;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  background: #ef4444;
+  color: white;
+  font-weight: 600;
+}

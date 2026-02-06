@@ -1,0 +1,46 @@
+.category-summary h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  
+  .category-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+    border-left: 5px solid transparent;
+  }
+  
+  .category-card h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+  }
+  
+  .category-card .amount {
+    font-size: 22px;
+    font-weight: bold;
+  }
+  
+  .category-card .type {
+    font-size: 12px;
+    color: var(--text-muted);
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
+  
+  /* Income / Expense styling */
+  .category-card.income {
+    border-left-color: var(--green);
+  }
+  
+  .category-card.expense {
+    border-left-color: var(--red);
+  }
