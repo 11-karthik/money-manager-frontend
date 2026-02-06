@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/auth.css";
+import api from "../api/api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,18 +12,12 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+      const res = await api.post("/users/login", {
+        email,
+        password,
       });
 
-      if (!res.ok) {
-        alert("Invalid credentials");
-        return;
-      }
-
-      const data = await res.json();
+      const data = res.data; // ✅ axios data
 
       login({
         id: data.id || data._id,
@@ -32,7 +27,8 @@ export default function Login() {
 
       navigate("/app/dashboard");
     } catch (err) {
-      alert("Login failed");
+      console.error(err);
+      alert("Invalid credentials or server error");
     }
   };
 

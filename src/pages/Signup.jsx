@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../styles/auth.css";
+import api from "../api/api";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -11,24 +12,26 @@ export default function Signup() {
 
   const handleSignup = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/users/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
+      // ✅ request body
+      const payload = {
+        name,
+        email,
+        password,
+      };
 
-      if (!res.ok) {
-        const err = await res.text();
-        console.error(err);
-        alert("Signup failed");
-        return;
-      }
+      // ✅ axios POST
+      await api.post("/users/signup", payload);
 
       alert("Signup successful. Please login.");
       navigate("/login");
-    } catch (e) {
-      console.error(e);
-      alert("Server error");
+    } catch (err) {
+      console.error("Signup error:", err);
+
+      if (err.response) {
+        alert(err.response.data.message || "Signup failed");
+      } else {
+        alert("Server not reachable");
+      }
     }
   };
 
@@ -44,6 +47,7 @@ export default function Signup() {
         />
 
         <input
+          type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}

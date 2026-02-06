@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/addTransactionModal.css";
+import api from "../api/api";
 
 export default function AddTransactionModal({ onClose, onSuccess }) {
   const { user } = useContext(AuthContext);
@@ -17,6 +18,10 @@ export default function AddTransactionModal({ onClose, onSuccess }) {
       return;
     }
 
+    // ✅ FORMAT DATE FOR LocalDateTime (NO Z, NO MS)
+    const now = new Date();
+    const transactionDate = now.toISOString().slice(0, 19);
+
     const payload = {
       userId: user.id,
       amount: Number(amount),
@@ -24,25 +29,22 @@ export default function AddTransactionModal({ onClose, onSuccess }) {
       description,
       type: tab,
       division,
-      transactionDate: new Date().toISOString(),
+      transactionDate,
     };
 
     try {
-      const res = await fetch("http://localhost:8080/api/transactions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        alert("Failed to add transaction");
-        return;
-      }
+      await api.post("/transactions", payload);
 
       onSuccess();
+      onClose();
     } catch (err) {
-      console.error(err);
-      alert("Server error");
+      console.error("Transaction error:", err);
+
+      if (err.response) {
+        alert(err.response.data.message || "Failed to add transaction");
+      } else {
+        alert("Server not reachable");
+      }
     }
   };
 

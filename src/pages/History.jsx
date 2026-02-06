@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import EditTransactionModal from "../components/EditTransactionModal";
+import api from "../api/api";
 import "../styles/history.css";
 
 export default function History() {
@@ -14,24 +15,32 @@ export default function History() {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
-  const loadData = () => {
-    fetch(`http://localhost:8080/api/transactions/user/${user.id}`)
-      .then(res => res.json())
-      .then(setTransactions);
+  /* ---------------- LOAD DATA ---------------- */
+  const loadData = async () => {
+    if (!user || !user.id) return;
+
+    try {
+      const res = await api.get(`/transactions/user/${user.id}`);
+      setTransactions(res.data);
+    } catch (err) {
+      console.error("History load error:", err);
+      alert("Failed to load transactions");
+    }
   };
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [user]);
 
+  /* ---------------- EDIT TIME LIMIT ---------------- */
   const canEdit = (createdAt) => {
     const diffHours =
       (new Date() - new Date(createdAt)) / (1000 * 60 * 60);
     return diffHours <= 12;
   };
 
-  // ✅ APPLY FILTERS (SAFE)
-  const filteredTransactions = transactions.filter(t => {
+  /* ---------------- APPLY FILTERS ---------------- */
+  const filteredTransactions = transactions.filter((t) => {
     const txDate = new Date(t.transactionDate);
 
     if (category && t.category !== category) return false;
@@ -48,23 +57,24 @@ export default function History() {
 
       {/* 🔍 FILTER BAR */}
       <div className="filters">
-        <input type="date" onChange={e => setFromDate(e.target.value)} />
-        <input type="date" onChange={e => setToDate(e.target.value)} />
+        <input type="date" onChange={(e) => setFromDate(e.target.value)} />
+        <input type="date" onChange={(e) => setToDate(e.target.value)} />
 
-        <select onChange={e => setCategory(e.target.value)}>
+        <select onChange={(e) => setCategory(e.target.value)}>
           <option value="">All Categories</option>
           <option value="food">Food</option>
           <option value="fuel">Fuel</option>
           <option value="salary">Salary</option>
         </select>
 
-        <select onChange={e => setDivision(e.target.value)}>
+        <select onChange={(e) => setDivision(e.target.value)}>
           <option value="">All Divisions</option>
           <option value="PERSONAL">Personal</option>
           <option value="OFFICE">Office</option>
         </select>
       </div>
 
+      {/* 📋 TABLE */}
       <div className="table-wrapper">
         <table>
           <thead>
@@ -80,11 +90,11 @@ export default function History() {
           </thead>
 
           <tbody>
-            {filteredTransactions.map(t => {
+            {filteredTransactions.map((t) => {
               const editable = canEdit(t.createdAt);
 
               return (
-                <tr key={t.id}>
+                <tr key={t.id || t._id}>
                   <td>{new Date(t.transactionDate).toLocaleString()}</td>
                   <td>{t.description || "-"}</td>
                   <td>{t.category}</td>
@@ -112,6 +122,7 @@ export default function History() {
         </table>
       </div>
 
+      {/* ✏️ EDIT MODAL */}
       {selected && (
         <EditTransactionModal
           transaction={selected}

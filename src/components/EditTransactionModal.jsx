@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../styles/editTransactionModal.css";
+import api from "../api/api";
 
 export default function EditTransactionModal({
   transaction,
@@ -16,8 +17,10 @@ export default function EditTransactionModal({
   const updateTransaction = async () => {
     setLoading(true);
 
+    // ✅ handle Mongo `_id` or `id`
+    const transactionId = transaction.id || transaction._id;
+
     const payload = {
-      ...transaction,
       amount: Number(amount),
       category,
       description,
@@ -26,25 +29,18 @@ export default function EditTransactionModal({
     };
 
     try {
-      const res = await fetch(
-        `http://localhost:8080/api/transactions/${transaction.id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (!res.ok) {
-        alert("Failed to update transaction");
-        setLoading(false);
-        return;
-      }
+      await api.put(`/transactions/${transactionId}`, payload);
 
       onSuccess();
+      onClose();
     } catch (err) {
-      console.error(err);
-      alert("Server error");
+      console.error("Update error:", err);
+
+      if (err.response) {
+        alert(err.response.data.message || "Failed to update transaction");
+      } else {
+        alert("Server not reachable");
+      }
     } finally {
       setLoading(false);
     }

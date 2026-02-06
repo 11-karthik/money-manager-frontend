@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/add-transaction.css";
+import api from "../api/api";
 
 export default function AddTransaction() {
   const { user } = useContext(AuthContext);
@@ -32,24 +33,22 @@ export default function AddTransaction() {
       description,
       type,
       division,
-      transactionDate: new Date().toISOString(),
+      // ✅ BACKEND-COMPATIBLE DATE FORMAT
+      transactionDate: new Date().toISOString().slice(0, 19),
     };
 
     try {
-      const res = await fetch("http://localhost:8080/api/transactions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        alert("Failed to add transaction");
-        return;
-      }
+      await api.post("/transactions", payload);
 
       navigate("/app/dashboard");
-    } catch {
-      alert("Server error");
+    } catch (err) {
+      console.error("Add transaction error:", err);
+
+      if (err.response) {
+        alert(err.response.data.message || "Failed to add transaction");
+      } else {
+        alert("Server not reachable");
+      }
     }
   };
 
